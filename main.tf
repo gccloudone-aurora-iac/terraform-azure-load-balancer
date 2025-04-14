@@ -1,7 +1,7 @@
 resource "azurerm_public_ip" "this" {
   for_each = local.public_ips
 
-  name                = coalesce(try(each.value.public_ip_address.name, null), "${module.azure_resource_prefixes.public_ip_address_prefix}-lb")
+  name                = coalesce(try(each.value.public_ip_address.name, null), "${module.azure_resource_names.public_ip_address_name}-lb")
   resource_group_name = var.resource_group_name
   location            = var.azure_resource_attributes.location
   public_ip_prefix_id = try(each.value.public_ip_address.public_ip_prefix_id, null)
@@ -30,7 +30,7 @@ resource "azurerm_public_ip" "this" {
 #####################
 
 resource "azurerm_lb" "this" {
-  name                = module.azure_resource_prefixes.load_balancer_prefix
+  name                = module.azure_resource_names.load_balancer_name
   resource_group_name = var.resource_group_name
   location            = var.azure_resource_attributes.location
 
